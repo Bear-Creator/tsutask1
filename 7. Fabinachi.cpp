@@ -19,7 +19,6 @@ int main() {
     double summ = 2, n1 = 1, n2 = 1,g;
     cout << "Enter a large number MAX: ";
     cin >> MAX;
-    double fib1;
     while (summ <= MAX) {
         g=n1;
         n1 += n2;
