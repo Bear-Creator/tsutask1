@@ -15,7 +15,7 @@ int main() {
         i++;
     }
 
-    cout << '\n';
+    cout << endl;
 
     int MAX, n = 3;
     int summ = 2, n1 = 1, n2 = 1, g;
