@@ -1,0 +1,4 @@
+First progrsmm will print: 
+10 10 10 10 10
+Second programm wil print: 
+10 9 8 7 6 
