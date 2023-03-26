@@ -4,8 +4,7 @@
 using namespace std;
 
 // Функция упаковки данных
-vector<int> packData(int arr[], int N) {
-    vector<int> packedData;
+void packData(short arr[], int N, vector<short>& packedData) {
     int prev = -1;
     int count = 0;
 
@@ -27,12 +26,10 @@ vector<int> packData(int arr[], int N) {
         packedData.push_back(prev);
         packedData.push_back(count);
     }
-
-    return packedData;
 }
 
 // Функция распаковки данных
-void unpackData(vector<int> packedData, int arr[], int N) {
+void unpackData(const vector<short>& packedData, short arr[], int N) {
     int index = 0;
 
     for (int i = 0; i < packedData.size(); i += 2) {
@@ -42,14 +39,13 @@ void unpackData(vector<int> packedData, int arr[], int N) {
         for (int j = 0; j < count; j++) {
             arr[index] = num;
             index++;
-
         }
     }
 }
 
 int main() {
-    const int N = 10;  
-    int arr[N];
+    const int N = 1000;  
+    short arr[N];
 
     // Заполнение массива случайными числами
     for (int i = 0; i < N; i++) {
@@ -57,16 +53,18 @@ int main() {
     }
 
     // Упаковка данных
-    vector<int> packedData = packData(arr, N);
+    vector<short> packedData;
+    packData(arr, N, packedData);
 
     // Вывод упакованных данных
+    cout << packedData.size() << endl;
     for (int i = 0; i < packedData.size(); i += 2) {
-        cout << packedData[i] << ":" << packedData[i + 1] << " ";
+        cout << packedData[i] << ":" << packedData[i + 1] << endl;
     }
     cout << endl;
 
     // Распаковка данных
-    int unpackedArr[N];
+    short unpackedArr[N];
     unpackData(packedData, unpackedArr, N);
     
     return 0;
