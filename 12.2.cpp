@@ -3,10 +3,10 @@
 
 using namespace std;
 
-void placeQueens(int k, vector<int>& columns, vector<vector<int>>& solutions) {
+void placeQueens(int k, vector<int>& columns, vector<vector<int>*>& solutions) {
     int n = columns.size();
-    if (k == n) { // base case: all queens are placed
-        solutions.push_back(columns);
+    if (k == n) {
+        solutions.push_back(new vector<int>(columns));
     } 
     else {
         for (int i = 0; i < n; i++) {
@@ -25,11 +25,17 @@ void placeQueens(int k, vector<int>& columns, vector<vector<int>>& solutions) {
     }
 }
 
-vector<vector<int>> solveQueens(int k) {
-    vector<vector<int>> solutions;
+vector<vector<int>*> solveQueens(int k) {
+    vector<vector<int>*> solutions;
     vector<int> columns(k);
     placeQueens(0, columns, solutions);
     return solutions;
+}
+
+void deleteSolutions(vector<vector<int>*>& solutions) {
+    for (vector<int>* solution : solutions) {
+        delete solution;
+    }
 }
 
 int main() {
@@ -37,15 +43,16 @@ int main() {
     cout << "Enter the number of queens: ";
     cin >> k;
 
-    vector<vector<int>> solutions = solveQueens(k);
+    vector<vector<int>*> solutions = solveQueens(k);
     int numSolutions = solutions.size();
 
     cout << "Number of solutions: " << numSolutions << endl;
     cout << "Solutions:" << endl;
     for (int i = 0; i < numSolutions; i++) {
+        vector<int>* solution = solutions[i];
         for (int j = 0; j < k; j++) {
             for (int l = 0; l < k; l++) {
-                if (solutions[i][j] == l) {
+                if ((*solution)[j] == l) {
                     cout << "Q ";
                 } else {
                     cout << "- ";
@@ -55,6 +62,8 @@ int main() {
         }
         cout << endl;
     }
+
+    deleteSolutions(solutions);
 
     return 0;
 }
