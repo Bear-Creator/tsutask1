@@ -1,54 +1,83 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
+
 using namespace std;
-    string q1,q2;
-    int a,k,n;
-    bool l;
-void base(string s[])
+
+string searchQuery1, searchQuery2;
+int arraySize, count, totalQueries;
+bool found;
+
+void appendToQuery(string array[])
 {
-    for(int i=0;i<k;i++)
+    for (int i = 0; i < count; i++)
     {
-        l=0;
-        if(s[i].find(q1)!=-1 && s[i].find(q2)==-1)
+        found = false;
+        if (array[i].find(searchQuery1) != -1 && array[i].find(searchQuery2) == -1)
         {
-            s[i]+="-";
-            s[i]+=q2;
-            l=1;
+            array[i] += "-";
+            array[i] += searchQuery2;
+            found = true;
         }
-        else if(s[i].find(q2)!=-1 && s[i].find(q1)==-1)
+        else if (array[i].find(searchQuery2) != -1 && array[i].find(searchQuery1) == -1)
         {
-            s[i]+="-";
-            s[i]+=q1;
-            l=1;
+            array[i] += "-";
+            array[i] += searchQuery1;
+            found = true;
         }
-        else if(s[i].find(q1)!=-1 && s[i].find(q2)!=-1)l=1;
+        else if (array[i].find(searchQuery1) != -1 && array[i].find(searchQuery2) != -1)
+        {
+            found = true;
+        }
     }
-    if(l!=1)
+    if (!found)
     {
-        s[k]+=q1;
-        s[k]+="-";
-        s[k]+=q2;
-        k++;
-        l=0;
+        array[count] += searchQuery1;
+        array[count] += "-";
+        array[count] += searchQuery2;
+        count++;
+        found = false;
     }
 }
+
 int main()
 {
-    l=0;
-    k=0;
-    ifstream in("input.txt");
-    in>>n;
-    string s[n];
-    bool population[n];
-    for(int i=0;i<n;i++) population[i]=1;
-    while(in>>q1>>q2)
+    found = false;
+    count = 0;
+
+    ifstream input("input.txt");
+    input >> arraySize;
+
+    string dataArray[arraySize];
+    bool population[arraySize];
+
+    for (int i = 0; i < arraySize; i++)
     {
-        if(q1=="0" && q2=="0")break;
-        population[stoi(q1)]=0;            
-        population[stoi(q2)]=0;
-        base(s);
+        population[i] = true;
     }
-    for(int i = 0; i< k; i++) cout<<s[i]<<endl;
-    for(int i = 0; i< n; i++) if (population[i] == 1)cout<<i<<endl;
+
+    while (input >> searchQuery1 >> searchQuery2)
+    {
+        if (searchQuery1 == "0" && searchQuery2 == "0")
+            break;
+
+        population[stoi(searchQuery1)] = false;
+        population[stoi(searchQuery2)] = false;
+        appendToQuery(dataArray);
+    }
+
+    for (int i = 0; i < count; i++)
+    {
+        cout << dataArray[i] << endl;
+    }
+
+    for (int i = 0; i < arraySize; i++)
+    {
+        if (population[i])
+        {
+            cout << i << endl;
+        }
+    }
+
+    return 0;
 }
